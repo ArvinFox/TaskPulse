@@ -10,7 +10,7 @@ obj/
 *.userosscache
 *.sln.docstates
 TaskPulse.API/taskpulse.db
-TaskPulse.API/taskpulse.db-journal
+TaskPulse.API/taskpulse.db-*
 
 # --- Angular Client ---
 TaskPulse.Client/node_modules/
