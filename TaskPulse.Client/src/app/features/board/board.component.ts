@@ -109,10 +109,12 @@ export class BoardComponent implements OnInit {
 
     // 2. Real-time Task Created Broadcast
     this.signalrService.taskCreated$.subscribe(task => {
-      // Add if not already present
-      if (!this.tasks().some(t => t.id === task.id)) {
-        this.tasks.update(current => [...current, task]);
-      }
+      this.tasks.update(current => {
+        if (current.some(t => t.id === task.id)) {
+          return current;
+        }
+        return [...current, task];
+      });
     });
 
     // 3. Real-time Task Updated Broadcast
@@ -190,7 +192,12 @@ export class BoardComponent implements OnInit {
 
     this.taskService.createTask(newTask).subscribe({
       next: (createdTask) => {
-        this.tasks.update(curr => [...curr, createdTask]);
+        this.tasks.update(curr => {
+          if (curr.some(t => t.id === createdTask.id)) {
+            return curr;
+          }
+          return [...curr, createdTask];
+        });
         
         // Reset input state
         this.quickTaskTitle.update(curr => ({ ...curr, [column]: '' }));
