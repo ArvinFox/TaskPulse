@@ -11,7 +11,7 @@ import { BoardProject, TeamMember, TaskItem } from '../models/task.model';
   providedIn: 'root'
 })
 export class TaskService {
-  private apiUrl = 'http://localhost:5205/api';
+  private apiUrl = 'https://taskpulse-api-15zs.onrender.com/api';
 
   constructor(private http: HttpClient) {}
 

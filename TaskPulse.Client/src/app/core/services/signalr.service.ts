@@ -13,7 +13,7 @@ import { TaskItem } from '../models/task.model';
 })
 export class SignalrService {
   private hubConnection!: signalR.HubConnection;
-  private hubUrl = 'http://localhost:5205/hubs/tasks';
+  private hubUrl = 'https://taskpulse-api-15zs.onrender.com/hubs/tasks';
 
   // RxJS Subjects to stream events out to UI components
   private taskMovedSubject = new Subject<{ taskId: number; newStatus: 'ToDo' | 'InProgress' | 'InReview' | 'Done' }>();
