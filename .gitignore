@@ -1,0 +1,29 @@
+# ==========================================
+# TaskPulse Git Ignore Config
+# ==========================================
+
+# --- .NET API ---
+bin/
+obj/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+TaskPulse.API/taskpulse.db
+TaskPulse.API/taskpulse.db-journal
+
+# --- Angular Client ---
+TaskPulse.Client/node_modules/
+TaskPulse.Client/dist/
+TaskPulse.Client/.angular/
+TaskPulse.Client/.editorconfig
+TaskPulse.Client/.vscode/
+TaskPulse.Client/src/assets/temp/
+
+# --- Common IDE / System ---
+.vs/
+.idea/
+.vscode/
+*.log
+Thumbs.db
+.DS_Store

@@ -1,0 +1,259 @@
+/* --- BOARD CONTAINER --- */
+.board-container {
+  padding: 32px;
+  max-width: 1400px;
+  margin: 0 auto;
+  animation: fadeIn 0.4s ease-out;
+}
+
+.board-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 32px;
+}
+
+.board-header h1 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+}
+
+/* --- KANBAN BOARD GRID --- */
+.kanban-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+  align-items: start;
+}
+
+@media (max-width: 1100px) {
+  .kanban-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 650px) {
+  .kanban-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* --- COLUMNS --- */
+.kanban-col {
+  background: rgba(16, 22, 40, 0.4);
+  border: 1px solid var(--border-color);
+  border-radius: 16px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  min-height: 500px;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.col-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 16px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.col-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+
+.dot-todo { background-color: #9CA3AF; }
+.dot-inprogress { background-color: #06B6D4; }
+.dot-inreview { background-color: #F59E0B; }
+.dot-done { background-color: #10B981; }
+
+.col-header h3 {
+  font-size: 0.95rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  flex: 1;
+}
+
+.count-badge {
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--text-secondary);
+  font-size: 0.75rem;
+  padding: 2px 8px;
+  border-radius: 10px;
+  font-weight: 600;
+}
+
+/* --- DRAG & DROP TASKS LIST --- */
+.tasks-list {
+  min-height: 380px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding-bottom: 20px;
+}
+
+/* --- TASK CARD --- */
+.task-card {
+  padding: 16px;
+  border-radius: 12px;
+  cursor: grab;
+  position: relative;
+  transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.2s ease, border-color 0.2s ease;
+  user-select: none;
+}
+
+.task-card:hover {
+  transform: translateY(-2px);
+  border-color: rgba(255, 255, 255, 0.12);
+}
+
+.task-card h4 {
+  font-size: 0.95rem;
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: var(--text-primary);
+  line-height: 1.4;
+}
+
+.task-desc {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  margin-bottom: 14px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.task-card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  border-top: 1px solid rgba(255, 255, 255, 0.03);
+  padding-top: 10px;
+}
+
+.points {
+  font-size: 0.75rem;
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--text-secondary);
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-weight: 500;
+}
+
+.subtask-fraction {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.subtask-fraction::before {
+  content: '';
+  display: inline-block;
+  width: 5px;
+  height: 5px;
+  background-color: var(--primary);
+  border-radius: 50%;
+  box-shadow: 0 0 5px var(--primary);
+}
+
+.card-avatar {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  object-fit: cover;
+}
+
+/* Card hover glow states by parent column */
+.col-todo .task-card:hover {
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4), 0 0 10px rgba(255, 255, 255, 0.03);
+}
+.col-inprogress .task-card:hover {
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4), 0 0 10px rgba(6, 182, 212, 0.1);
+}
+.col-inreview .task-card:hover {
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4), 0 0 10px rgba(245, 158, 11, 0.1);
+}
+.col-done .task-card:hover {
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4), 0 0 10px rgba(16, 185, 129, 0.1);
+}
+
+/* Strikethrough style for Done column cards */
+.task-done h4 {
+  text-decoration: line-through;
+  color: var(--text-secondary);
+}
+
+/* --- QUICK ADD TASK FLOW --- */
+.quick-add-container {
+  margin-top: auto;
+  padding-top: 10px;
+}
+
+.quick-add-btn {
+  width: 100%;
+  background: transparent;
+  border: 1px dashed rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
+  color: var(--text-secondary);
+  padding: 10px;
+  font-size: 0.85rem;
+  transition: var(--transition-smooth);
+}
+
+.quick-add-btn:hover {
+  background: rgba(255, 255, 255, 0.02);
+  border-color: var(--text-secondary);
+  color: var(--text-primary);
+}
+
+.quick-add-form {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  background: rgba(0,0,0,0.2);
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+  animation: slideDown 0.2s ease-out;
+}
+
+.quick-input {
+  width: 100%;
+  padding: 8px 12px;
+  font-size: 0.85rem;
+}
+
+.quick-add-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.btn-sm {
+  padding: 6px 12px;
+  font-size: 0.8rem;
+  border-radius: 6px;
+}
+
+/* --- ANIMATIONS --- */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-8px); }
+  to { opacity: 1; transform: translateY(0); }
+}

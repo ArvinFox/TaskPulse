@@ -1,0 +1,102 @@
+<div class="modal-backdrop" (click)="close.emit()">
+  <div class="modal-card glass-panel" (click)="$event.stopPropagation()">
+    <!-- Modal Header -->
+    <header class="modal-header">
+      <h3>Edit Task</h3>
+      <button class="close-btn" (click)="close.emit()">&times;</button>
+    </header>
+
+    <div class="modal-body">
+      <!-- Left side: Core Info and Subtasks -->
+      <div class="modal-left">
+        <!-- Task Title -->
+        <div class="form-group">
+          <label for="task-title">Title</label>
+          <input id="task-title" type="text" [(ngModel)]="editTitle" class="input-field w-full">
+        </div>
+
+        <!-- Task Description -->
+        <div class="form-group">
+          <label for="task-desc">Description</label>
+          <textarea id="task-desc" [(ngModel)]="editDescription" rows="4" class="input-field w-full text-area"></textarea>
+        </div>
+
+        <!-- Subtask Checklist -->
+        <div class="subtasks-section">
+          <label>Checklist Subtasks</label>
+          
+          <div class="subtasks-list">
+            <div *ngFor="let sub of localSubtasks; let i = index" class="subtask-row">
+              <input type="checkbox" 
+                     [checked]="sub.isCompleted" 
+                     (change)="toggleSubtask(sub)"
+                     class="checkbox-custom">
+              <span [class.completed]="sub.isCompleted" class="subtask-title">{{ sub.title }}</span>
+              <button (click)="removeSubtask(i)" class="remove-sub-btn" title="Remove subtask">&times;</button>
+            </div>
+          </div>
+
+          <!-- Add new subtask row -->
+          <div class="add-subtask-row">
+            <input type="text" 
+                   [(ngModel)]="newSubtaskTitle" 
+                   (keyup.enter)="addSubtask()"
+                   placeholder="Add item to checklist..." 
+                   class="input-field sub-input">
+            <button (click)="addSubtask()" class="btn-secondary add-sub-btn">Add</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right side: Sidebar metadata parameters -->
+      <div class="modal-right">
+        <!-- Status -->
+        <div class="form-group">
+          <label for="task-status">Status</label>
+          <select id="task-status" [(ngModel)]="editStatus" class="input-field w-full select-custom">
+            <option value="ToDo">To Do</option>
+            <option value="InProgress">In Progress</option>
+            <option value="InReview">In Review</option>
+            <option value="Done">Done</option>
+          </select>
+        </div>
+
+        <!-- Story Points -->
+        <div class="form-group">
+          <label for="task-points">Story Points (Complexity)</label>
+          <input id="task-points" type="number" [(ngModel)]="editPoints" min="1" max="21" class="input-field w-full">
+        </div>
+
+        <!-- Assigned Member -->
+        <div class="form-group">
+          <label for="task-assignee">Assignee</label>
+          <select id="task-assignee" [(ngModel)]="editMemberId" class="input-field w-full select-custom">
+            <option [ngValue]="null">Unassigned</option>
+            <option *ngFor="let member of members" [value]="member.id">
+              {{ member.name }} ({{ member.role }})
+            </option>
+          </select>
+        </div>
+
+
+
+        <!-- Delete item button -->
+        <div class="delete-section">
+          <button (click)="deleteTask()" class="delete-btn">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" viewBox="0 0 16 16">
+              <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
+              <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
+            </svg>
+            <span>Delete Task</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal Footer Actions -->
+    <footer class="modal-footer">
+      <button (click)="close.emit()" class="btn-secondary">Cancel</button>
+      <button (click)="saveTask()" class="btn-primary">Save Changes</button>
+    </footer>
+  </div>
+</div>

@@ -1,0 +1,267 @@
+/* --- SIMPLIFIED BASIC DASHBOARD STYLES --- */
+.dashboard-container {
+  padding: 24px;
+  max-width: 1200px;
+  margin: 0 auto;
+  font-family: inherit;
+}
+
+.dashboard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+  border-bottom: 1px solid var(--border-color);
+  padding-bottom: 16px;
+}
+
+.dashboard-header h1 {
+  font-size: 1.8rem;
+  font-weight: 600;
+  color: #fff;
+}
+
+.subtitle {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  margin-top: 4px;
+}
+
+/* --- BASIC STAT CARDS --- */
+.stats-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.stat-card {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 20px;
+  text-align: left;
+}
+
+.card-tag {
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+.stat-card h2 {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #fff;
+  margin: 6px 0;
+}
+
+.stat-card p {
+  color: var(--text-secondary);
+  font-size: 0.8rem;
+}
+
+/* --- DATA PANELS GRID --- */
+.charts-row {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr;
+  gap: 20px;
+  margin-bottom: 24px;
+}
+
+@media (max-width: 800px) {
+  .charts-row {
+    grid-template-columns: 1fr;
+  }
+}
+
+.chart-card {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 20px;
+}
+
+.chart-card h3 {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #fff;
+  margin-bottom: 16px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  padding-bottom: 8px;
+}
+
+/* --- BASIC DATA TABLE --- */
+.metrics-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 16px;
+  font-size: 0.85rem;
+}
+
+.metrics-table th, .metrics-table td {
+  padding: 10px 12px;
+  text-align: left;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.metrics-table th {
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+.metrics-table td {
+  color: var(--text-primary);
+}
+
+.table-total-row {
+  font-weight: 600;
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.table-total-row td {
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  color: #fff;
+}
+
+/* --- EFFORT SUMMARY METRICS --- */
+.effort-summary {
+  display: flex;
+  gap: 24px;
+  padding-top: 8px;
+}
+
+.effort-metric {
+  display: flex;
+  gap: 8px;
+  font-size: 0.85rem;
+}
+
+.effort-label {
+  color: var(--text-secondary);
+}
+
+.effort-value {
+  color: #fff;
+  font-weight: 600;
+}
+
+/* --- MEMBER LISTS --- */
+.members-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.member-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+}
+
+.member-row:last-child {
+  border-bottom: none;
+}
+
+.member-avatar {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1px solid var(--border-color);
+}
+
+.member-details {
+  display: flex;
+  flex-direction: column;
+}
+
+.member-name {
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: #fff;
+}
+
+.member-role {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+}
+
+/* --- ACTIVITY SECTION --- */
+.activity-section {
+  width: 100%;
+}
+
+.feed-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 14px;
+}
+
+.signalr-badge {
+  font-size: 0.7rem;
+  color: #10B981;
+  background: rgba(16, 185, 129, 0.08);
+  padding: 2px 8px;
+  border-radius: 4px;
+  border: 1px solid rgba(16, 185, 129, 0.15);
+}
+
+.activity-feed {
+  max-height: 180px;
+  overflow-y: auto;
+  background: rgba(0, 0, 0, 0.15);
+  border-radius: 6px;
+  padding: 12px;
+  border: 1px solid var(--border-color);
+}
+
+.activity-item {
+  font-family: monospace;
+  font-size: 0.8rem;
+  margin-bottom: 8px;
+  line-height: 1.4;
+  padding: 4px 0;
+}
+
+.activity-item:last-child {
+  margin-bottom: 0;
+}
+
+.act-time {
+  color: var(--text-muted);
+}
+
+.activity-item.info .act-message { color: var(--text-secondary); }
+.activity-item.success .act-message { color: #10B981; }
+.activity-item.warning .act-message { color: #F59E0B; }
+.activity-item.error .act-message { color: #EF4444; }
+
+/* --- SPINNERS --- */
+.loading-overlay {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 0;
+  color: var(--text-secondary);
+  gap: 12px;
+}
+
+.spinner {
+  width: 28px;
+  height: 28px;
+  border: 2.5px solid rgba(255, 255, 255, 0.1);
+  border-top-color: var(--primary);
+  border-radius: 50%;
+  animation: spin 1s infinite linear;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}

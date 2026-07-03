@@ -1,0 +1,134 @@
+<div class="dashboard-container">
+  <!-- Header Title -->
+  <header class="dashboard-header">
+    <div>
+      <h1>TaskPulse Dashboard</h1>
+      <p class="subtitle">Workspace stats and project activity metrics.</p>
+    </div>
+    <div class="actions">
+      <a routerLink="/board" class="btn-primary">
+        <span>Go to Board</span>
+      </a>
+    </div>
+  </header>
+
+  <!-- Loading State -->
+  <div *ngIf="isLoading()" class="loading-overlay">
+    <div class="spinner"></div>
+    <p>Loading workspace analytics...</p>
+  </div>
+
+  <div *ngIf="!isLoading()" class="dashboard-content">
+    <!-- Stat Cards -->
+    <div class="stats-row">
+      <div class="stat-card">
+        <span class="card-tag">TO DO</span>
+        <h2>{{ todoTasks() }}</h2>
+        <p>Awaiting development</p>
+      </div>
+      <div class="stat-card">
+        <span class="card-tag">IN PROGRESS</span>
+        <h2>{{ inProgressTasks() }}</h2>
+        <p>Active development</p>
+      </div>
+      <div class="stat-card">
+        <span class="card-tag">IN REVIEW</span>
+        <h2>{{ inReviewTasks() }}</h2>
+        <p>Awaiting feedback</p>
+      </div>
+      <div class="stat-card">
+        <span class="card-tag">COMPLETED</span>
+        <h2>{{ completedTasks() }} / {{ totalTasks() }}</h2>
+        <p>Tasks completed ({{ completionPercentage() }}%)</p>
+      </div>
+    </div>
+
+    <!-- Simplified Data Overview -->
+    <div class="charts-row">
+      <!-- Project Status Table -->
+      <div class="chart-card">
+        <h3>Sprint Metrics Summary</h3>
+        <table class="metrics-table">
+          <thead>
+            <tr>
+              <th>Status Column</th>
+              <th>Task Count</th>
+              <th>Percentage</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>To Do</td>
+              <td>{{ todoTasks() }}</td>
+              <td>{{ totalTasks() > 0 ? Math.round((todoTasks() / totalTasks()) * 100) : 0 }}%</td>
+            </tr>
+            <tr>
+              <td>In Progress</td>
+              <td>{{ inProgressTasks() }}</td>
+              <td>{{ totalTasks() > 0 ? Math.round((inProgressTasks() / totalTasks()) * 100) : 0 }}%</td>
+            </tr>
+            <tr>
+              <td>In Review</td>
+              <td>{{ inReviewTasks() }}</td>
+              <td>{{ totalTasks() > 0 ? Math.round((inReviewTasks() / totalTasks()) * 100) : 0 }}%</td>
+            </tr>
+            <tr>
+              <td>Completed</td>
+              <td>{{ completedTasks() }}</td>
+              <td>{{ completionPercentage() }}%</td>
+            </tr>
+            <tr class="table-total-row">
+              <td>Total Tasks</td>
+              <td>{{ totalTasks() }}</td>
+              <td>100%</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <!-- Effort metrics -->
+        <div class="effort-summary">
+          <div class="effort-metric">
+            <span class="effort-label">Total Story Points:</span>
+            <span class="effort-value">{{ totalStoryPoints() }} SP</span>
+          </div>
+          <div class="effort-metric">
+            <span class="effort-label">Completed Story Points:</span>
+            <span class="effort-value">{{ completedStoryPoints() }} SP</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Team Members list -->
+      <div class="chart-card">
+        <h3>Workspace Contributors</h3>
+        <div class="members-list">
+          <div *ngFor="let member of members()" class="member-row">
+            <img [src]="member.avatarUrl" [alt]="member.name" class="member-avatar">
+            <div class="member-details">
+              <span class="member-name">{{ member.name }}</span>
+              <span class="member-role">{{ member.role }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Live Updates Stream -->
+    <div class="activity-section">
+      <div class="chart-card">
+        <div class="feed-header">
+          <h3>Activity Log Feed</h3>
+          <span class="signalr-badge">Live Updates Active</span>
+        </div>
+        <div class="activity-feed">
+          <div *ngFor="let act of activities()" class="activity-item" [ngClass]="act.type">
+            <div class="act-content">
+              <span class="act-time">[{{ act.timestamp | date:'HH:mm:ss' }}]</span>
+              <span class="act-message"> {{ act.message }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

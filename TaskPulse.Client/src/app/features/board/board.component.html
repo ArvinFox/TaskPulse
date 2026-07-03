@@ -1,0 +1,249 @@
+<div class="board-container">
+  <header class="board-header">
+    <div>
+      <h1 class="text-gradient-secondary">Kanban Board</h1>
+      <p class="subtitle">Drag & Drop tasks to synchronize status in real-time across tabs.</p>
+    </div>
+    <div class="actions">
+      <a routerLink="/dashboard" class="btn-secondary">
+        <span>Analytics Dashboard</span>
+      </a>
+    </div>
+  </header>
+
+  <!-- Board Loading Overlay -->
+  <div *ngIf="isLoading()" class="loading-overlay">
+    <div class="spinner"></div>
+    <p>Connecting to board state...</p>
+  </div>
+
+  <!-- Board Columns Grid with CDK Drag Drop Group -->
+  <div *ngIf="!isLoading()" class="kanban-grid" cdkDropListGroup>
+    <!-- Columns mapping: TO DO, IN PROGRESS, IN REVIEW, DONE -->
+    
+    <!-- TO DO COLUMN -->
+    <div class="kanban-col col-todo">
+      <div class="col-header">
+        <span class="col-dot dot-todo"></span>
+        <h3>To Do</h3>
+        <span class="count-badge">{{ todoTasks().length }}</span>
+      </div>
+      
+      <div cdkDropList 
+           [cdkDropListData]="todoTasks()" 
+           (cdkDropListDropped)="onTaskDrop($event, 'ToDo')"
+           class="tasks-list">
+        <div *ngFor="let task of todoTasks()" 
+             cdkDrag 
+             class="task-card glass-panel"
+             (click)="openDetails(task)">
+          <div class="task-card-header">
+            <h4>{{ task.title }}</h4>
+          </div>
+          <p class="task-desc" *ngIf="task.description">{{ task.description }}</p>
+          <div class="task-card-footer">
+            <span class="points">{{ task.storyPoints }} SP</span>
+            <div class="task-stats">
+              <span *ngIf="task.subTasks.length > 0" class="subtask-fraction">
+                {{ task.subTasks | subTaskFraction }}
+              </span>
+            </div>
+            <img *ngIf="task.assignedMember" 
+                 [src]="task.assignedMember.avatarUrl" 
+                 [title]="task.assignedMember.name" 
+                 class="card-avatar">
+          </div>
+        </div>
+      </div>
+      
+      <!-- Quick Add Task -->
+      <div class="quick-add-container">
+        <button *ngIf="!showQuickAdd().ToDo" (click)="toggleQuickAdd('ToDo')" class="quick-add-btn">
+          <span>+ Add Task</span>
+        </button>
+        <div *ngIf="showQuickAdd().ToDo" class="quick-add-form">
+          <input type="text" 
+                 [(ngModel)]="quickTaskTitle().ToDo" 
+                 (keyup.enter)="submitQuickAdd('ToDo')"
+                 placeholder="What needs to be done?" 
+                 class="input-field quick-input">
+          <div class="quick-add-actions">
+            <button (click)="submitQuickAdd('ToDo')" class="btn-primary btn-sm">Add</button>
+            <button (click)="toggleQuickAdd('ToDo')" class="btn-secondary btn-sm">Cancel</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- IN PROGRESS COLUMN -->
+    <div class="kanban-col col-inprogress">
+      <div class="col-header">
+        <span class="col-dot dot-inprogress"></span>
+        <h3>In Progress</h3>
+        <span class="count-badge">{{ inProgressTasks().length }}</span>
+      </div>
+      
+      <div cdkDropList 
+           [cdkDropListData]="inProgressTasks()" 
+           (cdkDropListDropped)="onTaskDrop($event, 'InProgress')"
+           class="tasks-list">
+        <div *ngFor="let task of inProgressTasks()" 
+             cdkDrag 
+             class="task-card glass-panel"
+             (click)="openDetails(task)">
+          <div class="task-card-header">
+            <h4>{{ task.title }}</h4>
+          </div>
+          <p class="task-desc" *ngIf="task.description">{{ task.description }}</p>
+          <div class="task-card-footer">
+            <span class="points">{{ task.storyPoints }} SP</span>
+            <div class="task-stats">
+              <span *ngIf="task.subTasks.length > 0" class="subtask-fraction">
+                {{ task.subTasks | subTaskFraction }}
+              </span>
+            </div>
+            <img *ngIf="task.assignedMember" 
+                 [src]="task.assignedMember.avatarUrl" 
+                 [title]="task.assignedMember.name" 
+                 class="card-avatar">
+          </div>
+        </div>
+      </div>
+
+      <!-- Quick Add Task -->
+      <div class="quick-add-container">
+        <button *ngIf="!showQuickAdd().InProgress" (click)="toggleQuickAdd('InProgress')" class="quick-add-btn">
+          <span>+ Add Task</span>
+        </button>
+        <div *ngIf="showQuickAdd().InProgress" class="quick-add-form">
+          <input type="text" 
+                 [(ngModel)]="quickTaskTitle().InProgress" 
+                 (keyup.enter)="submitQuickAdd('InProgress')"
+                 placeholder="What needs to be done?" 
+                 class="input-field quick-input">
+          <div class="quick-add-actions">
+            <button (click)="submitQuickAdd('InProgress')" class="btn-primary btn-sm">Add</button>
+            <button (click)="toggleQuickAdd('InProgress')" class="btn-secondary btn-sm">Cancel</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- IN REVIEW COLUMN -->
+    <div class="kanban-col col-inreview">
+      <div class="col-header">
+        <span class="col-dot dot-inreview"></span>
+        <h3>In Review</h3>
+        <span class="count-badge">{{ inReviewTasks().length }}</span>
+      </div>
+      
+      <div cdkDropList 
+           [cdkDropListData]="inReviewTasks()" 
+           (cdkDropListDropped)="onTaskDrop($event, 'InReview')"
+           class="tasks-list">
+        <div *ngFor="let task of inReviewTasks()" 
+             cdkDrag 
+             class="task-card glass-panel"
+             (click)="openDetails(task)">
+          <div class="task-card-header">
+            <h4>{{ task.title }}</h4>
+          </div>
+          <p class="task-desc" *ngIf="task.description">{{ task.description }}</p>
+          <div class="task-card-footer">
+            <span class="points">{{ task.storyPoints }} SP</span>
+            <div class="task-stats">
+              <span *ngIf="task.subTasks.length > 0" class="subtask-fraction">
+                {{ task.subTasks | subTaskFraction }}
+              </span>
+            </div>
+            <img *ngIf="task.assignedMember" 
+                 [src]="task.assignedMember.avatarUrl" 
+                 [title]="task.assignedMember.name" 
+                 class="card-avatar">
+          </div>
+        </div>
+      </div>
+
+      <!-- Quick Add Task -->
+      <div class="quick-add-container">
+        <button *ngIf="!showQuickAdd().InReview" (click)="toggleQuickAdd('InReview')" class="quick-add-btn">
+          <span>+ Add Task</span>
+        </button>
+        <div *ngIf="showQuickAdd().InReview" class="quick-add-form">
+          <input type="text" 
+                 [(ngModel)]="quickTaskTitle().InReview" 
+                 (keyup.enter)="submitQuickAdd('InReview')"
+                 placeholder="What needs to be done?" 
+                 class="input-field quick-input">
+          <div class="quick-add-actions">
+            <button (click)="submitQuickAdd('InReview')" class="btn-primary btn-sm">Add</button>
+            <button (click)="toggleQuickAdd('InReview')" class="btn-secondary btn-sm">Cancel</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- DONE COLUMN -->
+    <div class="kanban-col col-done">
+      <div class="col-header">
+        <span class="col-dot dot-done"></span>
+        <h3>Done</h3>
+        <span class="count-badge">{{ doneTasks().length }}</span>
+      </div>
+      
+      <div cdkDropList 
+           [cdkDropListData]="doneTasks()" 
+           (cdkDropListDropped)="onTaskDrop($event, 'Done')"
+           class="tasks-list">
+        <div *ngFor="let task of doneTasks()" 
+             cdkDrag 
+             class="task-card glass-panel task-done"
+             (click)="openDetails(task)">
+          <div class="task-card-header">
+            <h4>{{ task.title }}</h4>
+          </div>
+          <p class="task-desc" *ngIf="task.description">{{ task.description }}</p>
+          <div class="task-card-footer">
+            <span class="points">{{ task.storyPoints }} SP</span>
+            <div class="task-stats">
+              <span *ngIf="task.subTasks.length > 0" class="subtask-fraction">
+                {{ task.subTasks | subTaskFraction }}
+              </span>
+            </div>
+            <img *ngIf="task.assignedMember" 
+                 [src]="task.assignedMember.avatarUrl" 
+                 [title]="task.assignedMember.name" 
+                 class="card-avatar">
+          </div>
+        </div>
+      </div>
+
+      <!-- Quick Add Task -->
+      <div class="quick-add-container">
+        <button *ngIf="!showQuickAdd().Done" (click)="toggleQuickAdd('Done')" class="quick-add-btn">
+          <span>+ Add Task</span>
+        </button>
+        <div *ngIf="showQuickAdd().Done" class="quick-add-form">
+          <input type="text" 
+                 [(ngModel)]="quickTaskTitle().Done" 
+                 (keyup.enter)="submitQuickAdd('Done')"
+                 placeholder="What needs to be done?" 
+                 class="input-field quick-input">
+          <div class="quick-add-actions">
+            <button (click)="submitQuickAdd('Done')" class="btn-primary btn-sm">Add</button>
+            <button (click)="toggleQuickAdd('Done')" class="btn-secondary btn-sm">Cancel</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Detail Modal Component Integration -->
+  <app-task-detail *ngIf="showDetailModal()"
+                   [task]="selectedTask()"
+                   [members]="members()"
+                   (close)="closeDetails()"
+                   (saved)="onTaskSaved($event)"
+                   (deleted)="onTaskDeleted($event)">
+  </app-task-detail>
+</div>
