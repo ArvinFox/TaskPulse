@@ -12,6 +12,21 @@ var builder = WebApplication.CreateBuilder(args);
 
 // 1. Register EF Core DbContext dynamically (PostgreSQL in production/cloud, SQLite locally).
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? "Data Source=taskpulse.db";
+
+// Neon/Postgres connection URLs (postgres://...) need to be converted to ADO.NET connection strings
+if (connectionString.StartsWith("postgres://") || connectionString.StartsWith("postgresql://"))
+{
+    var databaseUri = new Uri(connectionString);
+    var userInfo = databaseUri.UserInfo.Split(':');
+    var username = userInfo[0];
+    var password = userInfo.Length > 1 ? userInfo[1] : "";
+    var host = databaseUri.Host;
+    var port = databaseUri.Port == -1 ? 5432 : databaseUri.Port;
+    var database = databaseUri.LocalPath.TrimStart('/');
+    
+    connectionString = $"Host={host};Port={port};Database={database};Username={username};Password={password};SSL Mode=Require;Trust Server Certificate=true;";
+}
+
 builder.Services.AddDbContext<TaskPulseDbContext>(options =>
 {
     if (connectionString.StartsWith("Host=") || connectionString.Contains("postgres") || connectionString.Contains("Postgres"))
