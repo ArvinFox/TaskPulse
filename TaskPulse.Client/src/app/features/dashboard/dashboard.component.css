@@ -18,7 +18,7 @@
 .dashboard-header h1 {
   font-size: 1.8rem;
   font-weight: 600;
-  color: #fff;
+  color: var(--text-primary);
 }
 
 .subtitle {
@@ -36,11 +36,12 @@
 }
 
 .stat-card {
-  background: rgba(255, 255, 255, 0.03);
+  background: var(--bg-surface);
   border: 1px solid var(--border-color);
   border-radius: 8px;
   padding: 20px;
   text-align: left;
+  box-shadow: var(--shadow-glass);
 }
 
 .card-tag {
@@ -54,7 +55,7 @@
 .stat-card h2 {
   font-size: 1.8rem;
   font-weight: 700;
-  color: #fff;
+  color: var(--text-primary);
   margin: 6px 0;
 }
 
@@ -78,18 +79,19 @@
 }
 
 .chart-card {
-  background: rgba(255, 255, 255, 0.03);
+  background: var(--bg-surface);
   border: 1px solid var(--border-color);
   border-radius: 8px;
   padding: 20px;
+  box-shadow: var(--shadow-glass);
 }
 
 .chart-card h3 {
   font-size: 1rem;
   font-weight: 600;
-  color: #fff;
+  color: var(--text-primary);
   margin-bottom: 16px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  border-bottom: 1px solid var(--border-color);
   padding-bottom: 8px;
 }
 
@@ -118,12 +120,12 @@
 
 .table-total-row {
   font-weight: 600;
-  background: rgba(255, 255, 255, 0.02);
+  background: rgba(0, 0, 0, 0.02);
 }
 
 .table-total-row td {
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
-  color: #fff;
+  border-top: 1px solid var(--border-color);
+  color: var(--text-primary);
 }
 
 /* --- EFFORT SUMMARY METRICS --- */
@@ -144,7 +146,7 @@
 }
 
 .effort-value {
-  color: #fff;
+  color: var(--text-primary);
   font-weight: 600;
 }
 
@@ -183,7 +185,7 @@
 .member-name {
   font-size: 0.85rem;
   font-weight: 500;
-  color: #fff;
+  color: var(--text-primary);
 }
 
 .member-role {
@@ -215,7 +217,7 @@
 .activity-feed {
   max-height: 180px;
   overflow-y: auto;
-  background: rgba(0, 0, 0, 0.15);
+  background: var(--bg-surface-hover);
   border-radius: 6px;
   padding: 12px;
   border: 1px solid var(--border-color);
