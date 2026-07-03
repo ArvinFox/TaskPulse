@@ -10,10 +10,19 @@ var builder = WebApplication.CreateBuilder(args);
 // --- DEPENDENCY INJECTION CONTAINER ---
 // This is where we register our services. .NET handles their lifecycle automatically.
 
-// 1. Register EF Core DbContext with SQLite provider.
-// The connection string is read from configuration or defaults to "Data Source=taskpulse.db".
+// 1. Register EF Core DbContext dynamically (PostgreSQL in production/cloud, SQLite locally).
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? "Data Source=taskpulse.db";
 builder.Services.AddDbContext<TaskPulseDbContext>(options =>
-    options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection") ?? "Data Source=taskpulse.db"));
+{
+    if (connectionString.StartsWith("Host=") || connectionString.Contains("postgres") || connectionString.Contains("Postgres"))
+    {
+        options.UseNpgsql(connectionString);
+    }
+    else
+    {
+        options.UseSqlite(connectionString);
+    }
+});
 
 // 2. Register SignalR Services for real-time WebSocket communication.
 builder.Services.AddSignalR();
